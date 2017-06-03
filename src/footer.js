@@ -4,9 +4,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 class Footer extends Component {
   render() {
-    const { filter, onFilter } = this.props;
+    const { filter, onFilter, count } = this.props;
     return (
       <View style={styles.container}>
+        <Text>{count} active items</Text>
         <View style={styles.filters}>
           <TouchableOpacity style={[styles.filter, filter === 'ALL' && styles.selected]} onPress={() => onFilter("ALL")}>
             <Text>All</Text>
@@ -27,7 +28,8 @@ class Footer extends Component {
 
 Footer.propTypes = {
   filter: PropTypes.string.isRequired,
-  onFilter: PropTypes.func.isRequired
+  onFilter: PropTypes.func.isRequired,
+  count: PropTypes.number.isRequired
 }
 
 const styles = StyleSheet.create({
