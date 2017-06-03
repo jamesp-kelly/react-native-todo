@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 class Footer extends Component {
   render() {
-    const { filter, onFilter, count } = this.props;
+    const { filter, onFilter, count, onClearComplete } = this.props;
     return (
       <View style={styles.container}>
         <Text>{count} active items</Text>
@@ -21,6 +21,11 @@ class Footer extends Component {
             <Text>Completed</Text>
           </TouchableOpacity>
         </View>        
+
+        <TouchableOpacity onPress={onClearComplete}>
+          <Text>Clear</Text>
+        </TouchableOpacity>
+
       </View>
     );
   }
@@ -29,8 +34,9 @@ class Footer extends Component {
 Footer.propTypes = {
   filter: PropTypes.string.isRequired,
   onFilter: PropTypes.func.isRequired,
-  count: PropTypes.number.isRequired
-}
+  count: PropTypes.number.isRequired,
+  onClearComplete: PropTypes.func.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {
