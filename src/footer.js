@@ -9,15 +9,15 @@ class Footer extends Component {
       <View style={styles.container}>
         <Text>{count} active items</Text>
         <View style={styles.filters}>
-          <TouchableOpacity style={[styles.filter, filter === 'ALL' && styles.selected]} onPress={() => onFilter("ALL")}>
+          <TouchableOpacity style={[styles.filter, filter === 'ALL' && styles.selected]} onPress={() => onFilter('ALL')}>
             <Text>All</Text>
           </TouchableOpacity>
             
-          <TouchableOpacity style={[styles.filter, filter === 'ACTIVE' && styles.selected]} onPress={() => onFilter("ACTIVE")}>
+          <TouchableOpacity style={[styles.filter, filter === 'ACTIVE' && styles.selected]} onPress={() => onFilter('ACTIVE')}>
             <Text>Active</Text>
           </TouchableOpacity>
             
-          <TouchableOpacity style={[styles.filter, filter === 'COMPLETED' && styles.selected]} onPress={() => onFilter("COMPLETED")}>
+          <TouchableOpacity style={[styles.filter, filter === 'COMPLETED' && styles.selected]} onPress={() => onFilter('COMPLETED')}>
             <Text>Completed</Text>
           </TouchableOpacity>
         </View>        
