@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 
 class Footer extends Component {
@@ -7,6 +8,10 @@ class Footer extends Component {
       <View />
     );
   }
+}
+
+Footer.propTypes = {
+  
 }
 
 export default Footer;

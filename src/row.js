@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+import { View, Text, StyleSheet, Switch } from 'react-native';
 
 class Row extends Component {
   render() {
+    const { text, complete, onComplete } = this.props;
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{this.props.text}</Text>
+        <Switch 
+          value={complete}
+          onValueChange={onComplete}  
+        />
+        <View style={styles.textWrap}>
+          <Text style={[styles.text, complete && styles.complete]}>{text}</Text>
+        </View>
       </View>
     );
   }
 }
+
+Row.PropTypes = {
+  text: PropTypes.string.isRequired,
+  complete: PropTypes.bool.isRequired,
+  onComplete: PropTypes.func.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -18,9 +32,16 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "space-between"
   },
+  textWrap: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
   text: {
     fontSize: 24,
     color: "#4d4d4d"
+  },
+  complete: {
+    textDecorationLine: 'line-through'
   }
 })
 

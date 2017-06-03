@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 class Header extends Component {
   render() {
+
+    const { value, onChange, onAddItem, onToggleAllComplete } = this.props;
+
     return (
       <View style={styles.header}>
-        <TouchableOpacity onPress={this.props.onToggleAllComplete}>
+        <TouchableOpacity onPress={onToggleAllComplete}>
           <Text style={styles.toggleIcon}>{String.fromCharCode(10003)}</Text>
         </TouchableOpacity>
         <TextInput
-          value={this.props.value} 
-          onChangeText={this.props.onChange}
-          onSubmitEditing={this.props.onAddItem}
+          value={value} 
+          onChangeText={onChange}
+          onSubmitEditing={onAddItem}
           placeholder="What needs to be done?"
           blurOnSubmit={false}
           returnKeyType="done"
@@ -21,6 +25,13 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onAddItem: PropTypes.func.isRequired,
+  onToggleAllComplete: PropTypes.func.isRequired
+};
 
 const styles = StyleSheet.create({
   header: {

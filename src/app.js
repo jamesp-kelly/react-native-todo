@@ -18,6 +18,7 @@ class App extends Component {
     this.handleAddItem = this.handleAddItem.bind(this);
     this.handleToggleAllComplete = this.handleToggleAllComplete.bind(this);
     this.setSource = this.setSource.bind(this);
+    this.handleToggleComplete = this.handleToggleComplete.bind(this);
   }
   
   setSource(items, itemsDatasource, otherState = {}) {
@@ -39,6 +40,17 @@ class App extends Component {
       }
     ];
     this.setSource(newItems, newItems, { value: ""});
+  }
+
+  handleToggleComplete(key, complete) {
+    const newItems = this.state.items.map((item) => {
+      if (item.key !== key) return item;
+      return {
+        ...item,
+        complete
+      };
+    });
+    this.setSource(newItems, newItems);
   }
 
   handleToggleAllComplete() {
@@ -71,6 +83,7 @@ class App extends Component {
               return (
                 <Row 
                   key={key}
+                  onComplete={(complete) => this.handleToggleComplete(key, complete)}
                   {...value}
                 />
               );
