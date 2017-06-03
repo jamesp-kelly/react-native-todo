@@ -4,6 +4,21 @@ import Header from './header';
 import Footer from './footer';
 import Row from './row';
 
+const filterItems = (filter, items) => {
+  return items.filter((item) => {
+    switch (filter) {
+      case 'ALL':
+        return true;
+      case 'COMPLETED':
+        return item.complete;
+      case 'ACTIVE':
+        return !item.complete;
+      default:
+        return true;
+    }
+  })
+}
+
 class App extends Component {
 
   constructor(props) {
@@ -13,12 +28,15 @@ class App extends Component {
       allComplete: false,
       value: "",
       items: [],
+      filter: 'ALL',
       dataSource: ds.cloneWithRows([])
     }
     this.handleAddItem = this.handleAddItem.bind(this);
     this.handleToggleAllComplete = this.handleToggleAllComplete.bind(this);
     this.setSource = this.setSource.bind(this);
     this.handleToggleComplete = this.handleToggleComplete.bind(this);
+    this.handleRemoveItem = this.handleRemoveItem.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
   }
   
   setSource(items, itemsDatasource, otherState = {}) {
@@ -27,6 +45,10 @@ class App extends Component {
       dataSource: this.state.dataSource.cloneWithRows(itemsDatasource),
       ...otherState
     })
+  }
+
+  handleFilter(filter) {
+    this.setSource(this.state.items, filterItems(filter, this.state.items), { filter });
   }
   
   handleAddItem() {
@@ -39,7 +61,15 @@ class App extends Component {
         complete: false
       }
     ];
-    this.setSource(newItems, newItems, { value: ""});
+    this.setSource(newItems, filterItems(this.state.filter, newItems), { value: ""});
+  }
+
+  handleRemoveItem(key) {
+    const newItems = this.state.items.filter((item) => {
+      return item.key !== key;
+    });
+    
+    this.setSource(newItems, filterItems(this.state.filter, newItems));
   }
 
   handleToggleComplete(key, complete) {
@@ -50,7 +80,7 @@ class App extends Component {
         complete
       };
     });
-    this.setSource(newItems, newItems);
+    this.setSource(newItems, filterItems(this.state.filter, newItems));
   }
 
   handleToggleAllComplete() {
@@ -60,7 +90,7 @@ class App extends Component {
       complete
     }));
     //console.table(newItems);
-    this.setSource(newItems, newItems, { allComplete: complete });
+    this.setSource(newItems, filterItems(this.state.filter, newItems), { allComplete: complete });
   }
 
 
@@ -84,6 +114,7 @@ class App extends Component {
                 <Row 
                   key={key}
                   onComplete={(complete) => this.handleToggleComplete(key, complete)}
+                  onRemove={() => this.handleRemoveItem(key)}
                   {...value}
                 />
               );
@@ -93,7 +124,10 @@ class App extends Component {
             }}
           />
         </View>
-        <Footer />
+        <Footer
+          filter={this.state.filter}
+          onFilter={this.handleFilter}
+        />
       </View>
     )
   }

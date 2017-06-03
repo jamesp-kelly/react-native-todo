@@ -36,9 +36,9 @@ Header.propTypes = {
 const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 16,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center"
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
   },
   toggleIcon: {
     fontSize: 30,
