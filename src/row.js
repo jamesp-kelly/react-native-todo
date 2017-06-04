@@ -2,60 +2,59 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, Switch, TouchableOpacity, TextInput } from 'react-native';
 
-class Row extends Component {
-  render() {
-    const { text, complete, onComplete, onRemove, onToggleEdit, editing } = this.props;
+const Row = ({ text, complete, onComplete, onRemove, onToggleEdit, editing, onUpdate }) => {
+  const textComponent = (
+    <TouchableOpacity style={styles.textWrap} onLongPress={() => onToggleEdit(true) }>
+      <Text style={[styles.text, complete && styles.complete]}>{text}</Text>
+    </TouchableOpacity>
+  );
 
-    const textComponent = (
-      <TouchableOpacity style={styles.textWrap} onLongPress={() => onToggleEdit(true) }>
-        <Text style={[styles.text, complete && styles.complete]}>{text}</Text>
-      </TouchableOpacity>
-    );
+  const removeButton = (
+    <TouchableOpacity onPress={onRemove}>
+      <Text style={styles.destroy}>X</Text>
+    </TouchableOpacity>
+  );
 
-    const removeButton = (
-      <TouchableOpacity onPress={onRemove}>
-        <Text style={styles.destroy}>X</Text>
-      </TouchableOpacity>
-    );
+  const editingComponent = (
+    <View style={styles.textWrap}>
+      <TextInput 
+        onChangeText={onUpdate}
+        autoFocus
+        value={text}
+        style={styles.input}
+        multiline
+      />
+    </View>
+  );
 
-    const editingComponent = (
-      <View style={styles.textWrap}>
-        <TextInput 
-          onChangeText={this.props.onUpdate}
-          autoFocus
-          value={this.props.text}
-          style={styles.input}
-          multiline
-        />
-      </View>
-    );
+  const doneButton = (
+    <TouchableOpacity style={styles.done} onPress={() => onToggleEdit(false)}>
+      <Text style={styles.doneText}>Save</Text>
+    </TouchableOpacity>
+  );
 
-    const doneButton = (
-      <TouchableOpacity style={styles.done} onPress={() => this.props.onToggleEdit(false)}>
-        <Text style={styles.doneText}>Save</Text>
-      </TouchableOpacity>
-    );
+  return (
+    <View style={styles.container}>
+      <Switch 
+        value={complete}
+        onValueChange={onComplete}  
+      />
 
-    return (
-      <View style={styles.container}>
-        <Switch 
-          value={complete}
-          onValueChange={onComplete}  
-        />
+      {editing ? editingComponent : textComponent}
+      {editing ? doneButton : removeButton}
 
-        {editing ? editingComponent : textComponent}
-        {editing ? doneButton : removeButton}
-
-      </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 Row.PropTypes = {
   text: PropTypes.string.isRequired,
   complete: PropTypes.bool.isRequired,
   onComplete: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.onRemove
+  onRemove: PropTypes.func.isRequired,
+  onToggleEdit: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({

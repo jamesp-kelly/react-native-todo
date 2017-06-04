@@ -141,19 +141,22 @@ class App extends Component {
 
 
   render() {
+
+    const { dataSource, value, items, loading, filter } = this.state;
+
     return (
       <View style={styles.container}>
         <Header
-          value={this.state.value}
+          value={value}
           onAddItem={this.handleAddItem}
-          onChange={(value) => this.setState({ value })}
+          onChange={(newVal) => this.setState({ value: newVal })}
           onToggleAllComplete={this.handleToggleAllComplete}
         />
         <View style={styles.content}>
           <ListView
             style={styles.list}
             enableEmptySections
-            dataSource={this.state.dataSource}
+            dataSource={dataSource}
             onScroll={() => Keyboard.dismiss()}
             renderRow={({ key, ...value}) => {
               return (
@@ -173,12 +176,12 @@ class App extends Component {
           />
         </View>
         <Footer
-          filter={this.state.filter}
+          filter={filter}
           onFilter={this.handleFilter}
-          count={filterItems('ACTIVE', this.state.items).length}
+          count={filterItems('ACTIVE', items).length}
           onClearComplete={this.handleClearComplete}
         />
-        {this.state.loading && <View style={styles.loading}>
+        {loading && <View style={styles.loading}>
           <ActivityIndicator
             animating
             size='large'
